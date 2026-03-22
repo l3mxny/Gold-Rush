@@ -1,36 +1,66 @@
 import React from 'react';
 
-const Claim = ({ name, emoji, percentage, current, max, isWarning }) => (
-  <div className="claim">
-    <div className="claim-name">{emoji} {name}</div>
-    <div className="claim-bar-wrapper">
-      <div 
-        className="claim-bar" 
-        style={{ width: `${percentage}%` }}
-      >
-        {percentage}%
-      </div>
-    </div>
-    <div className="claim-amount">${current} / ${max}</div>
-    {isWarning && (
-      <div className="warning">⚠️ Overmined! You're ${current - max} over budget.</div>
-    )}
-  </div>
-);
+const CATEGORY_EMOJI = {
+  Homestead:      '🏠',
+  Provisions:     '🍽️',
+  'Saloon & Fun': '🎪',
+  Transport:      '🚗',
+  Other:          '💼',
+};
 
-export default function ClaimsSection() {
-  const claims = [
-    { name: 'Homestead (Rent/Housing)', emoji: '🏠', percentage: 50, current: 1000, max: 1000, isWarning: false },
-    { name: 'Provisions (Groceries)', emoji: '🍽️', percentage: 60, current: 300, max: 500, isWarning: false },
-    { name: 'Saloon & Fun (Entertainment)', emoji: '🎪', percentage: 85, current: 170, max: 200, isWarning: true },
-    { name: 'Transport (Gas/Transit)', emoji: '🚗', percentage: 40, current: 60, max: 150, isWarning: false },
-  ];
+const emoji = (cat) => CATEGORY_EMOJI[cat] || '📌';
+
+const Claim = ({ cat, current, max }) => {
+  const pct = max > 0 ? Math.min(Math.round((current / max) * 100), 100) : 0;
+  const isWarning = current > max && max > 0;
+  return (
+    <div className="claim">
+      <div className="claim-name">{emoji(cat)} {cat}</div>
+      <div className="claim-bar-wrapper">
+        <div
+          className="claim-bar"
+          style={{
+            width: `${pct}%`,
+            background: isWarning
+              ? 'linear-gradient(90deg, #ff6b6b, #ff8787)'
+              : 'linear-gradient(90deg, #d4af37, #ffd700)',
+          }}
+        >
+          {pct > 10 ? `${pct}%` : ''}
+        </div>
+      </div>
+      <div className="claim-amount">${current.toFixed(2)} / ${max.toFixed(2)}</div>
+      {isWarning && (
+        <div className="warning">⚠️ Overmined! ${(current - max).toFixed(2)} over budget.</div>
+      )}
+    </div>
+  );
+};
+
+export default function ClaimsSection({ budgetLimits, spentByCategory }) {
+  const categories = Object.keys(budgetLimits);
+
+  if (categories.length === 0) {
+    return (
+      <div className="claims-section">
+        <h2>Your Claims</h2>
+        <p style={{ color: '#d4af37', marginTop: '20px' }}>
+          No budget set yet. Visit <strong>🗺️ Set Budget</strong> to stake your claims!
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="claims-section">
       <h2>Your Claims</h2>
-      {claims.map((claim, idx) => (
-        <Claim key={idx} {...claim} />
+      {categories.map(cat => (
+        <Claim
+          key={cat}
+          cat={cat}
+          current={spentByCategory[cat] || 0}
+          max={budgetLimits[cat] || 0}
+        />
       ))}
     </div>
   );

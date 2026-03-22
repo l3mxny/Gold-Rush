@@ -98,9 +98,48 @@
   margin: 20px 0;
 }
 
+/* Gold pile image - slightly smaller, shifted down */
+.gold-pile-img {
+  display: block;
+  height: 250px;
+  width: auto;
+  transform-origin: center bottom;
+}
+
+.gold-pile-pulse {
+  display: inline-block;
+  transform-origin: center bottom;
+  margin-top: 48px;
+  animation: goldPulse 5.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+@keyframes goldPulse {
+  0%, 100% { transform: scale(1); }
+  35% { transform: scale(1.07); }
+  65% { transform: scale(0.96); }
+  85% { transform: scale(1.03); }
+}
+
+/* Gold pile glow - stronger, follows outline */
+.gold-pile-glow {
+  position: relative;
+  display: inline-block;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 28px rgba(255, 215, 0, 0.5)) drop-shadow(0 0 45px rgba(255, 215, 0, 0.35)) drop-shadow(0 0 60px rgba(212, 175, 55, 0.25));
+  animation: goldOutlineGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes goldOutlineGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.7)) drop-shadow(0 0 28px rgba(255, 215, 0, 0.45)) drop-shadow(0 0 45px rgba(255, 215, 0, 0.3)) drop-shadow(0 0 60px rgba(212, 175, 55, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.95)) drop-shadow(0 0 45px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 70px rgba(255, 215, 0, 0.45)) drop-shadow(0 0 90px rgba(212, 175, 55, 0.35));
+  }
+}
+
 .percentage-label {
   position: absolute;
-  top: 10px;
+  top: 0;
   font-size: 2em;
   font-weight: bold;
   color: #ffd700;
@@ -257,27 +296,41 @@ button:hover {
 /* Bandit Animation */
 .bandit-container {
   position: fixed;
-  top: 50%;
+  top: 48%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
   pointer-events: none;
+  width: 380px;
+  height: 240px;
 }
 
 .bandit {
   position: absolute;
-  width: 60px;
-  height: 80px;
+  width: 130px;
+  height: 170px;
+  bottom: 0;
   animation: banditRide 2s ease-in-out;
 }
 
 .bandit.left {
+  width: 170px;
+  height: 220px;
+  bottom: 0;
   animation: banditRideLeft 2s ease-in-out;
+}
+
+.bandit-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  display: block;
 }
 
 @keyframes banditRide {
   0% {
-    left: -100px;
+    left: -180px;
     opacity: 1;
   }
   50% {
@@ -285,14 +338,14 @@ button:hover {
     opacity: 1;
   }
   100% {
-    left: 100px;
+    left: 180px;
     opacity: 0;
   }
 }
 
 @keyframes banditRideLeft {
   0% {
-    right: -100px;
+    right: -180px;
     opacity: 1;
   }
   50% {
@@ -300,14 +353,14 @@ button:hover {
     opacity: 1;
   }
   100% {
-    right: 100px;
+    right: 180px;
     opacity: 0;
   }
 }
 
 .stolen-notification {
   position: fixed;
-  top: 50%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(255, 107, 107, 0.95);
@@ -336,41 +389,10 @@ button:hover {
   }
 }
 
-/* Gold Rush leaderboard — shared palette (tycoon + wanted stay in one family) */
-:root {
-  --lb-gold: #d4af37;
-  --lb-gold-light: #fff4b8;
-  --lb-gold-mid: #c9a227;
-  --lb-gold-deep: #9a7209;
-  --lb-wood: #6b4e3d;
-  --lb-wood-dark: #4a3628;
-  --lb-parchment: #ede6d6;
-  --lb-parchment-mid: #e0d2bc;
-  --lb-ink: #1a1410;
-  --lb-ink-soft: #2a2218;
-  --lb-panel: #1e1814;
-  --lb-panel-deep: #12100c;
-  --lb-crimson: #8b0000;
-  --lb-crimson-mid: #a01818;
-  --lb-crimson-deep: #5c0000;
-  --lb-rank-gold: linear-gradient(145deg, #ffe566, #d4af37, #9a7209);
-  --lb-rank-wanted: linear-gradient(145deg, #c41e1e, #8b0000, #5c1010);
-  --lb-avatar-ring: 0 0 0 3px rgba(201, 162, 39, 0.65);
-  --lb-card-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-  /* Tycoon + Wanted cards — identical type scale */
-  --lb-card-font: Georgia, 'Times New Roman', serif;
-  --lb-card-name-size: clamp(1.1rem, 3vw, 1.25rem);
-  --lb-card-badge-size: clamp(1rem, 2.8vw, 1.12rem);
-  --lb-card-body-size: clamp(0.9rem, 2.4vw, 1rem);
-  --lb-card-name-color: #fff8dc;
-  --lb-card-body-color: #fffef5;
-  --lb-card-body-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
-}
-
 .leaderboard-section {
   background: rgba(51, 42, 30, 0.8);
   padding: 30px;
-  border: 2px solid var(--lb-gold);
+  border: 2px solid #d4af37;
   border-radius: 10px;
   grid-column: 1 / -1;
 }
@@ -383,255 +405,57 @@ button:hover {
   text-align: center;
 }
 
-.leaderboard-subsection + .leaderboard-subsection {
-  margin-top: 36px;
-  padding-top: 28px;
-  border-top: 1px solid rgba(212, 175, 55, 0.35);
-}
-
-.leaderboard-tycoons {
-  padding: 22px 20px 26px;
-  border-radius: 12px;
-  border: 3px solid var(--lb-gold);
-  box-shadow:
-    0 0 0 1px rgba(255, 215, 0, 0.18),
-    inset 0 1px 0 rgba(255, 248, 220, 0.08),
-    var(--lb-card-shadow);
-  background: linear-gradient(180deg, rgba(42, 36, 28, 0.96) 0%, rgba(26, 22, 18, 0.98) 100%);
-}
-
-.leaderboard-tycoons-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  text-align: center;
-}
-
-.leaderboard-tycoons-trophy {
-  font-size: 2rem;
-  line-height: 1;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
-}
-
-.leaderboard-section h2.leaderboard-heading-tycoons {
-  border-bottom: none;
-  padding-bottom: 0;
-  margin-bottom: 0;
-  background: linear-gradient(180deg, #fff8dc 0%, #ffd700 45%, #b8860b 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 2px 24px rgba(255, 215, 0, 0.45);
-  font-size: clamp(1.25rem, 4vw, 1.75rem);
-  letter-spacing: 0.04em;
-  line-height: 1.2;
-}
-
-.leaderboard-tycoons-tagline {
-  text-align: center;
-  margin: 10px 0 20px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(212, 175, 55, 0.85);
-}
-
-.leaderboard-wanted {
-  padding: 22px 20px 24px;
-  border-radius: 12px;
-  border: 3px solid var(--lb-wood-dark);
-  box-shadow:
-    inset 0 0 0 1px rgba(212, 175, 55, 0.12),
-    inset 0 0 48px rgba(0, 0, 0, 0.28),
-    var(--lb-card-shadow);
-  background: linear-gradient(165deg, #2a2018 0%, var(--lb-panel) 50%, var(--lb-panel-deep) 100%);
-}
-
-.leaderboard-section h2.leaderboard-heading-wanted {
-  color: #e8a0a0;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 12px rgba(139, 0, 0, 0.35);
-  border-bottom: 2px solid rgba(139, 0, 0, 0.55);
-  padding-bottom: 12px;
-  margin-bottom: 22px;
-  font-size: clamp(1.2rem, 3.5vw, 1.65rem);
-}
-
 .leaderboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: clamp(16px, 3vw, 22px);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
   margin-bottom: 20px;
 }
 
-.leaderboard-grid--tycoons .tycoon-card,
-.leaderboard-grid--wanted .wanted-poster {
-  min-width: 0;
-}
-
-/* Shared dark card face — matches leaderboard / section panels */
-.tycoon-card,
 .wanted-poster {
-  font-family: var(--lb-card-font);
-  background: linear-gradient(165deg, #252018 0%, var(--lb-panel) 48%, var(--lb-panel-deep) 100%);
-}
-
-.tycoon-card {
-  position: relative;
+  background: #e8dcc4;
+  border: 8px solid #8b7355;
+  border-radius: 5px;
+  padding: 20px;
   text-align: center;
-  padding: 22px 20px 20px;
-  border-radius: 8px;
-  border: 3px solid var(--lb-gold-mid);
-  box-shadow:
-    0 0 0 1px rgba(255, 215, 0, 0.18),
-    var(--lb-card-shadow),
-    inset 0 1px 0 rgba(255, 248, 220, 0.06);
-  transform: rotate(-1deg);
-}
-
-.tycoon-card:nth-child(even) {
-  transform: rotate(1deg);
-}
-
-.tycoon-rank,
-.wanted-rank {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.1em;
-  line-height: 1;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(0, 0, 0, 0.25);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-}
-
-.tycoon-rank {
-  color: var(--lb-ink);
-  background: var(--lb-rank-gold);
-}
-
-/* Shared portrait treatment — same coin/medallion on tycoon + wanted cards */
-.tycoon-avatar,
-.wanted-avatar {
-  width: 84px;
-  height: 84px;
-  margin: 12px auto;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.4rem;
-  font-weight: bold;
-  color: var(--lb-ink);
-  background: radial-gradient(circle at 32% 28%, #fff8dc, #e8c547 42%, var(--lb-gold-deep));
-  box-shadow: var(--lb-avatar-ring), inset 0 -4px 12px rgba(0, 0, 0, 0.28);
-}
-
-.tycoon-name,
-.wanted-name {
-  font-size: var(--lb-card-name-size);
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: 0.02em;
-  color: var(--lb-card-name-color);
-  margin: 8px 0 6px;
-}
-
-.tycoon-saved-badge,
-.wanted-reward-badge {
-  display: inline-block;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 8px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-size: var(--lb-card-badge-size);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.tycoon-saved-badge {
-  color: #0d0806;
-  background: linear-gradient(180deg, var(--lb-gold-light), #e6c84a, var(--lb-gold-deep));
-  border: 2px solid var(--lb-gold-mid);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.45),
-    0 3px 10px rgba(0, 0, 0, 0.35);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
-}
-
-.wanted-reward-badge {
-  color: #fff8f0;
-  background: var(--lb-rank-wanted);
-  border: 2px solid var(--lb-crimson-deep);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 220, 200, 0.22),
-    0 3px 10px rgba(60, 0, 0, 0.45);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
-}
-
-.leaderboard-line-emoji {
-  font-style: normal;
-  font-size: 1.15em;
-  line-height: 1;
-  vertical-align: -0.08em;
-  margin-right: 2px;
-}
-
-.tycoon-habit-line,
-.wanted-blow-line,
-.wanted-overbudget-line {
-  font-size: var(--lb-card-body-size);
-  line-height: 1.5;
-  font-weight: 500;
-  font-style: italic;
-  color: var(--lb-card-body-color);
-  text-shadow: var(--lb-card-body-shadow);
-}
-
-.tycoon-habit-line {
-  margin: 14px 0 0;
-}
-
-.wanted-poster {
-  border: 3px solid var(--lb-wood);
-  border-radius: 8px;
-  padding: 22px 20px 20px;
-  text-align: center;
-  transform: rotate(-1deg);
-  box-shadow:
-    var(--lb-card-shadow),
-    inset 0 0 0 1px rgba(212, 175, 55, 0.1),
-    inset 0 1px 0 rgba(255, 248, 220, 0.05);
+  transform: rotate(-2deg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
   position: relative;
 }
 
 .wanted-poster:nth-child(even) {
-  transform: rotate(1deg);
+  transform: rotate(2deg);
 }
 
-/* Matches tycoon “crest” weight — gold accent, same scale as card name */
 .wanted-title {
-  font-size: var(--lb-card-name-size);
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: 0.1em;
-  color: rgba(255, 223, 140, 0.95);
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #8b0000;
   margin-bottom: 10px;
   text-transform: uppercase;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+  letter-spacing: 2px;
+  border-bottom: 2px solid #8b0000;
   padding-bottom: 10px;
-  text-shadow: var(--lb-card-body-shadow);
+}
+
+.wanted-avatar {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #d4af37, #8b7355);
+  border-radius: 50%;
+  margin: 15px auto;
+  font-size: 2.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.wanted-name {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #1a1410;
+  margin: 10px 0;
 }
 
 .wanted-bounty {
@@ -644,164 +468,35 @@ button:hover {
   font-weight: bold;
 }
 
-.wanted-blow-line {
-  margin: 14px 0 0;
-  padding: 10px 8px 0;
-  border-top: 1px dashed rgba(212, 175, 55, 0.28);
-}
-
-.wanted-overbudget-line {
-  margin: 10px 0 0;
-  letter-spacing: 0.02em;
-}
-
-.wanted-overbudget-line--over {
-  color: #ffc8c8;
-  text-shadow: var(--lb-card-body-shadow);
-}
-
 .wanted-crime {
-  margin-top: 10px;
-  font-size: var(--lb-card-body-size);
-  font-weight: 500;
+  color: #1a1410;
+  font-size: 0.9em;
   font-style: italic;
-  line-height: 1.5;
-  color: var(--lb-card-body-color);
-  text-shadow: var(--lb-card-body-shadow);
-  opacity: 0.92;
+  margin-top: 10px;
 }
 
 .wanted-rank {
-  color: #fff8f0;
-  background: var(--lb-rank-wanted);
-}
-
-.add-outlaw-section {
-  margin-top: 8px;
-  padding-top: 28px;
-  border-top: 1px solid rgba(212, 175, 55, 0.35);
-}
-
-.add-outlaw-form {
-  padding: 22px 20px 24px;
-  border-radius: 12px;
-  border: 3px solid var(--lb-wood-dark);
-  background: linear-gradient(165deg, #2a2218 0%, var(--lb-panel) 48%, var(--lb-panel-deep) 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(212, 175, 55, 0.14),
-    inset 0 0 50px rgba(0, 0, 0, 0.2),
-    var(--lb-card-shadow);
-}
-
-.add-outlaw-form-header {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #8b0000;
+  color: #e8dcc4;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
-.add-outlaw-form-icon {
-  font-size: 1.85rem;
-  line-height: 1;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
-}
-
-.add-outlaw-form-title {
-  margin: 0;
-  font-size: clamp(1.15rem, 3.5vw, 1.45rem);
-  letter-spacing: 0.03em;
-  background: linear-gradient(180deg, #fff8dc 0%, #ffd700 45%, #b8860b 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 2px 20px rgba(255, 215, 0, 0.25);
-}
-
-.add-outlaw-section .form-group {
-  margin-bottom: 0;
-}
-
-.add-outlaw-section .form-group label {
-  display: block;
-  color: rgba(255, 223, 140, 0.95);
-  margin-bottom: 8px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  letter-spacing: 0.03em;
-}
-
-.add-outlaw-section .form-group input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 12px 14px;
-  border: 2px solid rgba(212, 175, 55, 0.35);
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.35);
-  color: #fff8e7;
-  font-family: 'Georgia', serif;
-  font-size: 1rem;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.25);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.add-outlaw-section .form-group input:focus {
-  outline: none;
-  border-color: var(--lb-gold);
-  box-shadow:
-    inset 0 2px 8px rgba(0, 0, 0, 0.25),
-    0 0 0 3px rgba(212, 175, 55, 0.2);
-}
-
-.add-outlaw-section .form-group select {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 12px 14px;
-  border: 2px solid rgba(212, 175, 55, 0.35);
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.35);
-  color: #fff8e7;
-  font-family: 'Georgia', serif;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.25);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.add-outlaw-section .form-group select:focus {
-  outline: none;
-  border-color: var(--lb-gold);
-  box-shadow:
-    inset 0 2px 8px rgba(0, 0, 0, 0.25),
-    0 0 0 3px rgba(212, 175, 55, 0.2);
-}
-
-.add-outlaw-post-btn {
-  padding: 12px 22px;
-  border-radius: 999px;
-  border: 2px solid var(--lb-gold-mid);
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  color: var(--lb-ink);
-  background: linear-gradient(180deg, var(--lb-gold-light), #e6c84a, var(--lb-gold-deep));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    0 4px 14px rgba(0, 0, 0, 0.35);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
-  align-self: flex-end;
-  white-space: nowrap;
-}
-
-.add-outlaw-post-btn:hover {
-  filter: brightness(1.05);
-}
-
-.add-outlaw-post-btn:active {
-  transform: scale(0.98);
+.add-outlaw-form {
+  background: rgba(30, 25, 18, 0.9);
+  padding: 20px;
+  border: 2px solid #d4af37;
+  border-radius: 5px;
+  margin-top: 20px;
 }
 
 .form-group {
@@ -833,27 +528,239 @@ button:hover {
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr auto;
-  gap: 16px;
+  gap: 15px;
   align-items: flex-end;
 }
 
-.form-row--post-wanted {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
-  align-items: end;
+/* Dispatch date */
+.dispatch-date {
+  font-size: 0.8em;
+  color: #8b7355;
+  white-space: nowrap;
+}
+
+/* Set Budget */
+.set-budget-section {
+  background: rgba(51, 42, 30, 0.8);
+  padding: 30px;
+  border: 2px solid #d4af37;
+  border-radius: 10px;
+  max-width: 600px;
+}
+
+.set-budget-section h2 {
+  color: #ffd700;
+  margin-bottom: 8px;
+  border-bottom: 2px solid #d4af37;
+  padding-bottom: 10px;
+}
+
+.budget-subtitle {
+  color: #d4af37;
+  margin-bottom: 25px;
+  font-size: 0.95em;
+}
+
+.budget-form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.budget-total-display {
+  font-size: 1.2em;
+  color: #ffd700;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px 16px;
+  border-radius: 6px;
+  border: 1px solid #d4af37;
+  margin-bottom: 20px;
+}
+
+.budget-categories h3 {
+  color: #ffd700;
+  margin-bottom: 6px;
+  margin-top: 10px;
+}
+
+.budget-hint {
+  color: #d4af37;
+  font-size: 0.9em;
+  margin-bottom: 12px;
+}
+
+.budget-over {
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+.budget-category-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 36px;
+  align-items: center;
+  gap: 10px;
+}
+
+.budget-category-row label {
+  margin-bottom: 0;
+}
+
+.remove-cat-btn {
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+  border: 1px solid #ff6b6b;
+  border-radius: 4px;
+  padding: 6px;
+  font-size: 0.85em;
+  cursor: pointer;
+  line-height: 1;
+  font-family: 'Georgia', serif;
+  transition: background 0.2s;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-cat-btn:hover {
+  background: rgba(255, 107, 107, 0.4);
+  transform: none;
+  box-shadow: none;
+}
+
+.add-category-section {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #d4af37;
+}
+
+.add-category-section h3 {
+  color: #ffd700;
+  margin-bottom: 10px;
+}
+
+.add-category-row {
+  display: grid;
+  grid-template-columns: 1fr 100px auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.budget-save-btn {
+  margin-top: 20px;
+  align-self: flex-start;
+}
+
+.budget-saved-msg {
+  color: #7dff7d;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Tab Navigation */
+.tab-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 30px;
+  border-bottom: 3px solid #d4af37;
+  padding-bottom: 0;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: rgba(51, 42, 30, 0.8);
+  color: #d4af37;
+  border: 2px solid #d4af37;
+  border-bottom: none;
+  padding: 10px 20px;
+  border-radius: 6px 6px 0 0;
+  font-size: 0.95em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-family: 'Georgia', serif;
+  transform: none;
+  box-shadow: none;
+  margin-bottom: -3px;
+}
+
+.tab-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  transform: none;
+  box-shadow: none;
+}
+
+.tab-btn.active {
+  background: #d4af37;
+  color: #1a1410;
+  transform: none;
+  box-shadow: none;
+}
+
+.tab-content {
+  padding-top: 10px;
+}
+
+/* Add Transaction */
+.add-transaction-section {
+  background: rgba(51, 42, 30, 0.8);
+  padding: 30px;
+  border: 2px solid #d4af37;
+  border-radius: 10px;
+  max-width: 600px;
+}
+
+.add-transaction-section h2 {
+  color: #ffd700;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #d4af37;
+  padding-bottom: 10px;
+}
+
+.add-transaction-form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.category-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d4af37;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #f5deb3;
+  font-family: 'Georgia', serif;
+  font-size: 1em;
+}
+
+.category-select:focus {
+  outline: none;
+  border-color: #ffd700;
+}
+
+.splurge-toggle {
+  margin-top: 5px;
+}
+
+.splurge-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: #d4af37;
+  font-weight: bold;
+}
+
+.splurge-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #d4af37;
 }
 
 @media (max-width: 768px) {
-  .leaderboard-tycoons,
-  .leaderboard-wanted,
-  .add-outlaw-form {
-    padding: 18px 14px 20px;
-  }
-
-  .leaderboard-tycoons-header {
-    flex-direction: column;
-    gap: 8px;
-  }
-
   .main-content {
     grid-template-columns: 1fr;
   }
@@ -872,5 +779,11 @@ button:hover {
 
   button {
     width: 100%;
+  }
+
+  .tab-btn {
+    flex: 1 1 auto;
+    font-size: 0.8em;
+    padding: 8px 10px;
   }
 }
