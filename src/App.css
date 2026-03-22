@@ -797,6 +797,10 @@ button:hover {
   accent-color: #d4af37;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .main-content {
     grid-template-columns: 1fr;

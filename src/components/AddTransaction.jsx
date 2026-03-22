@@ -68,12 +68,21 @@ export default function AddTransaction({ categories, onAddTransaction }) {
 
           <div className="form-group">
             <label>Date</label>
-            <input
-              type="date"
-              value={date}
-              max={today()}
-              onChange={(e) => setDate(e.target.value)}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type="date"
+                value={date}
+                max={today()}
+                onChange={(e) => setDate(e.target.value)}
+                style={{ width: '100%', boxSizing: 'border-box', paddingRight: 36,
+                  colorScheme: 'dark' }}
+              />
+              <span style={{
+                position: 'absolute', right: 10, top: '50%',
+                transform: 'translateY(-50%)',
+                fontSize: '1.1em', pointerEvents: 'none',
+              }}>📅</span>
+            </div>
           </div>
 
           <div className="form-group">
