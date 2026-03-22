@@ -1,0 +1,7 @@
+Sources:
+Anthropic
+Cursor
+Github Copilot
+
+Link to code:
+https://github.com/l3mxny/Gold-Rush
