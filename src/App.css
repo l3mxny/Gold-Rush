@@ -296,23 +296,27 @@ button:hover {
 /* Bandit Animation */
 .bandit-container {
   position: fixed;
-  top: 50%;
+  top: 48%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
   pointer-events: none;
+  width: 380px;
+  height: 240px;
 }
 
 .bandit {
   position: absolute;
-  width: 60px;
-  height: 80px;
+  width: 130px;
+  height: 170px;
+  bottom: 0;
   animation: banditRide 2s ease-in-out;
 }
 
 .bandit.left {
-  width: 80px;
-  height: 100px;
+  width: 170px;
+  height: 220px;
+  bottom: 0;
   animation: banditRideLeft 2s ease-in-out;
 }
 
@@ -320,12 +324,13 @@ button:hover {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  object-position: bottom;
   display: block;
 }
 
 @keyframes banditRide {
   0% {
-    left: -100px;
+    left: -180px;
     opacity: 1;
   }
   50% {
@@ -333,14 +338,14 @@ button:hover {
     opacity: 1;
   }
   100% {
-    left: 100px;
+    left: 180px;
     opacity: 0;
   }
 }
 
 @keyframes banditRideLeft {
   0% {
-    right: -100px;
+    right: -180px;
     opacity: 1;
   }
   50% {
@@ -348,14 +353,14 @@ button:hover {
     opacity: 1;
   }
   100% {
-    right: 100px;
+    right: 180px;
     opacity: 0;
   }
 }
 
 .stolen-notification {
   position: fixed;
-  top: 50%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(255, 107, 107, 0.95);
