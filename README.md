@@ -16,7 +16,7 @@ A fun, gamified budget tracking app themed like a Wild West gold rush! Watch you
 ### Prerequisites
 - Node.js (v14 or higher)
 - npm or yarn
-- A free Plaid account (for bank integration)
+- A free Firebase account (for user authentication)
 
 ### Setup
 
@@ -30,51 +30,48 @@ A fun, gamified budget tracking app themed like a Wild West gold rush! Watch you
    npm install
    ```
 
-3. **Set up environment variables**
-   - Copy `.env.example` to `.env`:
-   ```bash
-   cp .env.example .env
-   ```
-   - Sign up for free at [plaid.com](https://plaid.com)
-   - Get your `PLAID_CLIENT_ID` and `PLAID_SECRET` (sandbox keys)
-   - Add them to your `.env` file
+3. **Set up Firebase Auth** (REQUIRED for login/signup)
+   - Follow the [Firebase Setup Guide](./FIREBASE_SETUP.md)
+   - Add your Firebase credentials to `.env`
 
-4. **Start the backend server**
+4. **Start the app**
    ```bash
    npm start
    ```
    
-   You should see:
-   ```
-   🏗️ Gold Rush server running on port 3001
-   ```
+   Opens at `http://localhost:3000`
 
-5. **Open the dashboard**
-   - Open `gold_rush_visual_dashboard.html` in your browser
-   - Or run a simple HTTP server: `python3 -m http.server 8000` and visit `http://localhost:8000/gold_rush_visual_dashboard.html`
+5. **Create an account**
+   - Sign up with any email and password
+   - Start tracking your budget!
 
 ## 📋 How to Use
 
-### Test Features Without Bank Connection
+### Authentication
+
+1. **Sign Up**
+   - Create a new account with an email and password
+   - Choose your "Outlaw Name" (your alias)
+
+2. **Log In**
+   - Use your email and password to access your account
+   - Each user has their own gold rush dashboard!
+
+3. **Log Out**
+   - Click the **Logout** button in the top right
+
+### Test Features
 
 1. **Click splurge buttons** in the "Test Splurge Transactions" section
    - Watch bandits animate and steal gold
    - See your gold pile shrink in real-time
    - Transaction appears in the dispatches feed
 
-2. **Add outlaws to the leaderboard**
+2. **Add your friends to the leaderboard**
    - Fill in the "Post a Wanted Notice" form
-   - Enter outlaw name, budget, and amount saved
+   - Enter your friend's name, their budget, and how much they saved
    - Click "Post" to add them to the wanted posters
-
-### Connect a Real Bank Account
-
-1. Click **"🏦 Connect Your Bank via Plaid"**
-2. In Plaid's modal:
-   - **For sandbox testing**: Use institution "Platypus Bank"
-   - **Username**: `user_good`
-   - **Password**: `pass_good`
-3. Once linked, your transactions will auto-populate and the gold pile will reflect real spending
+   - The leaderboard ranks by savings amount!
 
 ## 🎨 Design Highlights
 

@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { useAuth } from './context/AuthContext';
 import GoldPile from './components/GoldPile';
 import ClaimsSection from './components/ClaimsSection';
 import DispatchesFeed from './components/DispatchesFeed';
 import WantedPosters from './components/WantedPosters';
 import BanditAnimation from './components/BanditAnimation';
+import Login from './components/Login';
+import Signup from './components/Signup';
 
 export default function App() {
+  const { currentUser, logout } = useAuth();
+  const [authView, setAuthView] = useState('login'); // 'login' or 'signup'
   const [goldAmount, setGoldAmount] = useState(2000);
   const [monthlyBudget] = useState(2000);
   const [dispatches, setDispatches] = useState([
@@ -95,11 +100,33 @@ export default function App() {
 
   const percentage = Math.round((goldAmount / monthlyBudget) * 100);
 
+  // Show login/signup if not authenticated
+  if (!currentUser) {
+    return (
+      <>
+        {authView === 'login' ? (
+          <Login onSwitchToSignup={() => setAuthView('signup')} />
+        ) : (
+          <Signup onSwitchToLogin={() => setAuthView('login')} />
+        )}
+      </>
+    );
+  }
+
+  // Show dashboard if authenticated
   return (
     <div className="app">
       <header className="header">
-        <h1>⛏️ GOLD RUSH ⛏️</h1>
-        <p className="subtitle">Pan for Gold, Not Debt</p>
+        <div className="header-content">
+          <div className="header-title">
+            <h1>⛏️ GOLD RUSH ⛏️</h1>
+            <p className="subtitle">Pan for Gold, Not Debt</p>
+          </div>
+          <div className="header-user">
+            <span className="user-email">{currentUser.email}</span>
+            <button onClick={logout} className="logout-btn">Logout</button>
+          </div>
+        </div>
       </header>
 
       {showBandit && <BanditAnimation amount={banditAmount} show={showNotification} />}
