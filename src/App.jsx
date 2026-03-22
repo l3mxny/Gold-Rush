@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { useAuth } from './context/AuthContext';
 import { useLeaderboard } from './context/LeaderboardContext';
-<<<<<<< HEAD
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-=======
->>>>>>> main
 import { db } from './config/firebase';
 import GoldPile from './components/GoldPile';
 import ClaimsSection from './components/ClaimsSection';
@@ -49,7 +46,6 @@ export default function App() {
   const [banditAmount, setBanditAmount] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
 
-<<<<<<< HEAD
   // Load user budget from Firestore (preserve existing users, N/A for new)
   useEffect(() => {
     if (!currentUser) return;
@@ -91,7 +87,6 @@ export default function App() {
     }
   };
 
-=======
   // Sync transactions from Firestore in real-time
   useEffect(() => {
     if (!currentUser) return;
@@ -107,7 +102,6 @@ export default function App() {
     return () => unsubscribe();
   }, [currentUser]);
 
->>>>>>> main
   // Derived values
   const categories = budgetLimits ? Object.keys(budgetLimits) : [];
   const totalBudget = budgetLimits ? Object.values(budgetLimits).reduce((a, b) => a + b, 0) : 0;
