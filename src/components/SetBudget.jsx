@@ -73,7 +73,7 @@ export default function SetBudget({ budgetLimits, onSaveBudget }) {
 
       <form onSubmit={handleSubmit} className="budget-form">
         <div className="budget-total-display">
-          Total Budget: <strong>${total.toFixed(2)}</strong>
+          Total Budget: <strong>{categories.length === 0 ? '—' : `$${total.toFixed(2)}`}</strong>
         </div>
 
         <div className="budget-categories">
@@ -84,21 +84,23 @@ export default function SetBudget({ budgetLimits, onSaveBudget }) {
           {categories.map(cat => (
             <div key={cat} className="form-group budget-category-row">
               <label>{emoji(cat)} {cat}</label>
-              <input
-                type="number"
-                min="0"
-                step="1"
-                value={form[cat]}
-                onChange={(e) => handleChange(cat, e.target.value)}
-              />
-              <button
-                type="button"
-                className="remove-cat-btn"
-                onClick={() => handleRemoveCategory(cat)}
-                title={`Remove ${cat}`}
-              >
-                ✕
-              </button>
+              <div className="budget-input-with-btn">
+                <input
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={form[cat]}
+                  onChange={(e) => handleChange(cat, e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="remove-cat-btn"
+                  onClick={() => handleRemoveCategory(cat)}
+                  title={`Remove ${cat}`}
+                >
+                  ✕
+                </button>
+              </div>
             </div>
           ))}
         </div>

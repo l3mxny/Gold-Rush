@@ -57,7 +57,7 @@ export default function AddTransaction({ categories, onAddTransaction }) {
   };
 
   return (
-    <div className="add-transaction-section">
+    <div className={`add-transaction-section${calendarOpen ? ' calendar-open' : ''}`}>
       <h2>💰 Log a Haul</h2>
 
       {categories.length === 0 ? (
@@ -101,6 +101,7 @@ export default function AddTransaction({ categories, onAddTransaction }) {
               dateFormat="MM/dd/yyyy"
               calendarClassName="gold-rush-calendar"
               showPopperArrow={false}
+              popperPlacement="right-start"
               customInput={
                 <CalendarInput
                   calendarOpen={calendarOpen}

@@ -273,7 +273,7 @@ export default function App() {
 
           {activeTab === 'budget' && (
             <SetBudget
-              budgetLimits={budgetLimits || DEFAULT_BUDGET}
+              budgetLimits={hasSetBudget ? (budgetLimits || {}) : {}}
               onSaveBudget={handleSaveBudget}
             />
           )}

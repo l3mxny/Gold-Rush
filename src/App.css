@@ -1,3 +1,17 @@
+@font-face {
+  font-family: 'Cowboy Outlaw';
+  src: url('./fonts/CowboyOutlaw.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cowboy Outlaw Textured';
+  src: url('./fonts/CowboyOutlawTextured.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .app {
   min-height: 100vh;
   padding: 20px;
@@ -29,9 +43,10 @@
 }
 
 .header h1 {
-  font-size: 3em;
+  font-family: 'Cowboy Outlaw', 'Cowboy Outlaw Textured', 'Georgia', serif;
+  font-size: 4.2em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  letter-spacing: 2px;
+  letter-spacing: 12px;
   color: #ffd700;
   margin: 0;
 }
@@ -567,7 +582,9 @@ button:hover {
   padding: 30px;
   border: 2px solid #d4af37;
   border-radius: 10px;
-  max-width: 600px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .set-budget-section h2 {
@@ -587,6 +604,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  width: 100%;
 }
 
 .budget-total-display {
@@ -618,13 +636,33 @@ button:hover {
 
 .budget-category-row {
   display: grid;
-  grid-template-columns: 1fr 120px 36px;
+  grid-template-columns: minmax(100px, auto) 1fr;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
+  width: 100%;
 }
 
 .budget-category-row label {
   margin-bottom: 0;
+}
+
+.budget-input-with-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  width: 100%;
+}
+
+.set-budget-section .budget-input-with-btn input {
+  flex: 1;
+  min-width: 0;
+}
+
+.set-budget-section .budget-input-with-btn .remove-cat-btn {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
 }
 
 .remove-cat-btn {
@@ -707,8 +745,12 @@ button:hover {
 }
 
 .budget-save-btn {
-  margin-top: 20px;
-  align-self: flex-start;
+  margin-top: 24px;
+  align-self: center;
+  padding: 16px 40px;
+  font-size: 1.2rem;
+  min-width: 220px;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.35);
 }
 
 .budget-saved-msg {
@@ -767,7 +809,14 @@ button:hover {
   padding: 30px;
   border: 2px solid #d4af37;
   border-radius: 10px;
-  max-width: 600px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  transition: transform 0.25s ease;
+}
+
+.add-transaction-section.calendar-open {
+  transform: translateX(-100px);
 }
 
 .add-transaction-section h2 {
@@ -938,45 +987,93 @@ button:hover {
   position: relative;
 }
 
-/* Themed calendar popover */
+/* Themed calendar popover - aesthetic gold rush style */
 .react-datepicker-popper {
   z-index: 1100 !important;
 }
 
-.gold-rush-calendar,
-.gold-rush-calendar .react-datepicker__header {
-  background: #2c2416 !important;
-  border-color: #d4af37 !important;
-  color: #f5deb3 !important;
+.gold-rush-calendar {
+  background: linear-gradient(160deg, #2c2416 0%, #1e1812 50%, #1a1410 100%) !important;
+  border: 2px solid #d4af37 !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(212, 175, 55, 0.12), inset 0 1px 0 rgba(255, 215, 0, 0.08) !important;
+  overflow: hidden !important;
+  padding: 6px !important;
 }
 
-.gold-rush-calendar .react-datepicker__day-name,
+.gold-rush-calendar .react-datepicker__header {
+  background: linear-gradient(180deg, #3d3223 0%, #2c2416 100%) !important;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.4) !important;
+  color: #f5deb3 !important;
+  padding: 18px 16px 14px !important;
+}
+
 .gold-rush-calendar .react-datepicker__current-month {
   color: #ffd700 !important;
+  font-size: 1.15rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  margin-bottom: 10px !important;
+}
+
+.gold-rush-calendar .react-datepicker__day-names,
+.gold-rush-calendar .react-datepicker__week {
+  display: flex !important;
+  justify-content: space-around !important;
+}
+
+.gold-rush-calendar .react-datepicker__day-name {
+  color: #ffd700 !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  width: 2.6rem !important;
+  line-height: 2.6rem !important;
+  margin: 2px !important;
+  opacity: 0.95 !important;
+}
+
+.gold-rush-calendar .react-datepicker__month-container {
+  padding: 10px 14px 16px !important;
 }
 
 .gold-rush-calendar .react-datepicker__day {
   color: #f5deb3 !important;
+  width: 2.6rem !important;
+  line-height: 2.6rem !important;
+  font-size: 1rem !important;
+  margin: 3px !important;
+  border-radius: 10px !important;
+  transition: all 0.2s ease !important;
 }
 
 .gold-rush-calendar .react-datepicker__day:hover {
-  background: rgba(212, 175, 55, 0.3) !important;
+  background: rgba(212, 175, 55, 0.35) !important;
   color: #ffd700 !important;
+  transform: scale(1.05) !important;
 }
 
 .gold-rush-calendar .react-datepicker__day--selected,
 .gold-rush-calendar .react-datepicker__day--keyboard-selected {
-  background: #d4af37 !important;
+  background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%) !important;
   color: #1a1410 !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4) !important;
 }
 
 .gold-rush-calendar .react-datepicker__day--today {
-  font-weight: bold;
+  font-weight: 700 !important;
   color: #ffd700 !important;
+  border: 1.5px solid rgba(255, 215, 0, 0.6) !important;
+  background: rgba(255, 215, 0, 0.08) !important;
+}
+
+.gold-rush-calendar .react-datepicker__navigation {
+  top: 20px !important;
 }
 
 .gold-rush-calendar .react-datepicker__navigation-icon::before {
   border-color: #d4af37 !important;
+  border-width: 2px 2px 0 0 !important;
 }
 
 .gold-rush-calendar .react-datepicker__navigation:hover *::before {
@@ -995,16 +1092,13 @@ button:hover {
   color: #ffd700 !important;
 }
 
-.gold-rush-calendar .react-datepicker__header {
-  padding-top: 12px;
-}
-
 .gold-rush-calendar .react-datepicker__day--outside-month {
-  color: #8b7355 !important;
+  color: #6b5b4a !important;
 }
 
 .gold-rush-calendar .react-datepicker__day--disabled {
-  color: #5a4a3a !important;
+  color: #4a3d2e !important;
+  cursor: not-allowed !important;
 }
 
 .gold-rush-calendar .react-datepicker__year-read-view,
@@ -1013,12 +1107,12 @@ button:hover {
 }
 
 .gold-rush-calendar .react-datepicker__triangle {
-  display: none;
+  display: none !important;
 }
 
 .gold-rush-calendar .react-datepicker__today-button,
 .gold-rush-calendar .react-datepicker__close-icon {
-  background: #d4af37 !important;
+  background: linear-gradient(180deg, #d4af37 0%, #c9a227 100%) !important;
   color: #1a1410 !important;
   border-color: #ffd700 !important;
 }
@@ -1042,7 +1136,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 
   .header h1 {
-    font-size: 2em;
+    font-size: 2.5em;
+    letter-spacing: 6px;
   }
 
   .button-group {
@@ -1057,5 +1152,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     flex: 1 1 auto;
     font-size: 0.8em;
     padding: 8px 10px;
+  }
+
+  /* On narrow screens, don't shift form when calendar opens */
+  .add-transaction-section.calendar-open {
+    transform: none;
   }
 }
