@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { useAuth } from './context/AuthContext';
+import { useLeaderboard } from './context/LeaderboardContext';
 import GoldPile from './components/GoldPile';
 import ClaimsSection from './components/ClaimsSection';
 import DispatchesFeed from './components/DispatchesFeed';
 import WantedPosters from './components/WantedPosters';
+import AddFriend from './components/AddFriend';
 import BanditAnimation from './components/BanditAnimation';
 import Login from './components/Login';
 import Signup from './components/Signup';
 
 export default function App() {
   const { currentUser, logout } = useAuth();
+  const { saveUserStats } = useLeaderboard();
   const [authView, setAuthView] = useState('login'); // 'login' or 'signup'
   const [goldAmount, setGoldAmount] = useState(2000);
   const [monthlyBudget] = useState(2000);
@@ -20,18 +23,13 @@ export default function App() {
     { id: 3, description: 'Luxury Boutique', category: 'SPLURGE', amount: -125, isSplurge: true },
     { id: 4, description: 'Starbucks', category: 'Saloon & Fun', amount: -6.50, isSplurge: false },
   ]);
-  const [outlaws, setOutlaws] = useState([
-    { name: 'Billy the Kid', budget: 3000, saved: 1500, crime: 'Saved 50% of income' },
-    { name: 'Wyatt Earp', budget: 2500, saved: 1200, crime: 'Built emergency fund' },
-    { name: 'Jesse James', budget: 2000, saved: 900, crime: 'Cut splurges in half' },
-    { name: 'Doc Holliday', budget: 3500, saved: 800, crime: 'Tracked all expenses' }
-  ]);
   const [showBandit, setShowBandit] = useState(false);
   const [banditAmount, setBanditAmount] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
 
   const triggerBanditHeist = (description, amount) => {
-    setGoldAmount(prev => Math.max(0, prev - amount));
+    const newGoldAmount = Math.max(0, goldAmount - amount);
+    setGoldAmount(newGoldAmount);
     setBanditAmount(amount);
     setShowBandit(true);
     setShowNotification(true);
@@ -47,17 +45,16 @@ export default function App() {
       isSplurge: true
     };
     setDispatches(prev => [newDispatch, ...prev]);
-  };
 
-  const addOutlaw = (name, budget, saved) => {
-    if (!name || !budget || !saved) return;
-
-    setOutlaws(prev => [...prev, {
-      name,
-      budget: parseInt(budget),
-      saved: parseInt(saved),
-      crime: `Saved ${Math.round((saved / budget) * 100)}% of income`
-    }]);
+    // Auto-save to Firestore
+    const spent = monthlyBudget - newGoldAmount;
+    saveUserStats({
+      displayName: currentUser.email.split('@')[0],
+      budget: monthlyBudget,
+      spent: spent,
+      saved: newGoldAmount,
+      savingsPercentage: Math.round((newGoldAmount / monthlyBudget) * 100)
+    });
   };
 
   const connectBank = async () => {
@@ -147,10 +144,9 @@ export default function App() {
           onSplurge={triggerBanditHeist}
         />
 
-        <WantedPosters 
-          outlaws={outlaws}
-          onAddOutlaw={addOutlaw}
-        />
+        <AddFriend />
+
+        <WantedPosters />
       </div>
     </div>
   );
