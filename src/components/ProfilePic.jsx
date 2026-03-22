@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { storage, db } from '../config/firebase';
 import { useAuth } from '../context/AuthContext';
 
-export default function ProfilePic({ currentPhotoURL }) {
+export default function ProfilePic() {
   const { currentUser } = useAuth();
   const [uploading, setUploading] = useState(false);
-  const [preview, setPreview] = useState(currentPhotoURL || null);
+  const [preview, setPreview] = useState(null);
   const [hovered, setHovered] = useState(false);
+
+  // Load saved photo from Firestore on login
+  useEffect(() => {
+    if (!currentUser) return;
+    db.collection('leaderboard').doc(currentUser.uid).get().then((doc) => {
+      if (doc.exists && doc.data().photoURL) {
+        setPreview(doc.data().photoURL);
+      }
+    });
+  }, [currentUser]);
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
