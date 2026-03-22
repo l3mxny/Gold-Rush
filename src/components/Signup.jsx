@@ -42,7 +42,14 @@ export default function Signup({ onSwitchToLogin }) {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h1>⛏️ GOLD RUSH ⛏️</h1>
+          <div className="auth-title-row">
+            <img
+              src="/assets/goldrush-logo.png"
+              alt="Gold Rush"
+              className="auth-header-logo"
+            />
+            <h1>GOLD RUSH</h1>
+          </div>
           <p className="subtitle">Pan for Gold, Not Debt</p>
         </div>
 

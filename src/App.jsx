@@ -27,7 +27,7 @@ const DEFAULT_BUDGET = {
 const TODAY = new Date().toISOString().split('T')[0];
 
 const TABS = [
-  { id: 'home',         label: '⛏️ Home' },
+  { id: 'home',         label: 'Home' },
   { id: 'transactions', label: '📨 Recent Transactions' },
   { id: 'add',          label: '💰 Add Transaction' },
   { id: 'budget',       label: '🗺️ Set Budget' },
@@ -250,7 +250,28 @@ export default function App() {
       <header className="header">
         <div className="header-content">
           <div className="header-title">
-            <h1>⛏️ GOLD RUSH ⛏️</h1>
+            <div className="header-title-row">
+              <button
+                type="button"
+                className="header-logo-btn"
+                onClick={() => setActiveTab('home')}
+                aria-label="Go to home"
+              >
+                <img
+                  src="/assets/goldrush-logo.png"
+                  alt="Gold Rush"
+                  className="header-logo"
+                />
+              </button>
+              <button
+                type="button"
+                className="header-text-btn"
+                onClick={() => setActiveTab('home')}
+                aria-label="Go to home"
+              >
+                <h1>GOLD RUSH</h1>
+              </button>
+            </div>
             <p className="subtitle">Pan for Gold, Not Debt</p>
           </div>
           <div className="header-user">

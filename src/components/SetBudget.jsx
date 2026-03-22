@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import NumericInput from './NumericInput';
 
 const CATEGORY_EMOJI = {
   Homestead:      '🏠',
@@ -85,12 +86,11 @@ export default function SetBudget({ budgetLimits, onSaveBudget }) {
             <div key={cat} className="form-group budget-category-row">
               <label>{emoji(cat)} {cat}</label>
               <div className="budget-input-with-btn">
-                <input
-                  type="number"
-                  min="0"
-                  step="1"
+                <NumericInput
                   value={form[cat]}
-                  onChange={(e) => handleChange(cat, e.target.value)}
+                  onChange={(raw) => handleChange(cat, raw)}
+                  placeholder="0"
+                  allowDecimal={true}
                 />
                 <button
                   type="button"
@@ -115,13 +115,11 @@ export default function SetBudget({ budgetLimits, onSaveBudget }) {
               onChange={(e) => { setNewCatName(e.target.value); setSaved(false); }}
               onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCategory())}
             />
-            <input
-              type="number"
-              min="0"
-              step="1"
+            <NumericInput
               placeholder="$0"
               value={newCatAmount}
-              onChange={(e) => setNewCatAmount(e.target.value)}
+              onChange={setNewCatAmount}
+              allowDecimal={true}
               onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCategory())}
             />
             <button type="button" className="primary-btn" onClick={handleAddCategory}>

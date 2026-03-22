@@ -27,6 +27,7 @@
   margin-bottom: 40px;
   border-bottom: 3px solid #d4af37;
   padding-bottom: 20px;
+  box-shadow: none;
 }
 
 .header-content {
@@ -36,10 +37,44 @@
   max-width: 1200px;
   margin: 0 auto;
   gap: 20px;
+  box-shadow: none;
 }
 
 .header-title {
   flex: 1;
+}
+
+.header-title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-logo-btn,
+.header-text-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  outline: none;
+  box-shadow: none;
+}
+
+.header-logo-btn:hover,
+.header-logo-btn:focus,
+.header-text-btn:hover,
+.header-text-btn:focus {
+  outline: none;
+  box-shadow: none;
+  opacity: 0.9;
+}
+
+.header-logo {
+  height: 96px;
+  width: auto;
+  display: block;
+  filter: none;
 }
 
 .header h1 {
@@ -49,6 +84,7 @@
   letter-spacing: 12px;
   color: #ffd700;
   margin: 0;
+  filter: none;
 }
 
 .header-user {

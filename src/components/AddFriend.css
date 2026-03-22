@@ -1,0 +1,101 @@
+/* Add Friend section - elongated, centered, refined Gold Rush palette */
+.add-friend-section {
+  width: 100%;
+  max-width: 800px;
+  margin: 24px auto 0;
+  padding: 28px 36px;
+  background: linear-gradient(145deg, rgba(45, 38, 28, 0.95) 0%, rgba(30, 25, 18, 0.98) 100%);
+  border: 1px solid rgba(184, 134, 11, 0.5);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(212, 175, 55, 0.08);
+}
+
+.add-friend-section h3 {
+  color: #d4af37;
+  margin: 0 0 20px 0;
+  font-size: 1.4em;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.add-friend-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #c9a227;
+  font-size: 0.95em;
+}
+
+.add-friend-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  background: rgba(26, 20, 16, 0.8);
+  color: #f5deb3;
+  box-sizing: border-box;
+  font-size: 15px;
+  font-family: 'Georgia', serif;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.add-friend-input::placeholder {
+  color: rgba(245, 222, 179, 0.4);
+}
+
+.add-friend-input:focus {
+  outline: none;
+  border-color: rgba(212, 175, 55, 0.7);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
+}
+
+.add-friend-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 4px;
+  background: linear-gradient(135deg, #b8860b 0%, #d4af37 50%, #c9a227 100%);
+  color: #1a1410;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: 'Georgia', serif;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.add-friend-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.add-friend-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.add-friend-divider {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+.add-friend-list-header {
+  color: #d4af37;
+  margin: 0 0 12px 0;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.add-friend-list {
+  color: #e8dcc4;
+  font-size: 0.95em;
+}
+
+.add-friend-list-item {
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  background: rgba(26, 20, 16, 0.5);
+  border-radius: 6px;
+  border-left: 3px solid rgba(212, 175, 55, 0.5);
+}

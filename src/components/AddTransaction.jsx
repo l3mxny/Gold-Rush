@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
+import NumericInput from './NumericInput';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const today = () => new Date().toISOString().split('T')[0];
@@ -78,13 +79,11 @@ export default function AddTransaction({ categories, onAddTransaction }) {
 
           <div className="form-group">
             <label>Amount ($)</label>
-            <input
-              type="number"
-              min="0.01"
-              step="0.01"
-              placeholder="0.00"
+            <NumericInput
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={setAmount}
+              placeholder="0.00"
+              allowDecimal={true}
             />
           </div>
 
