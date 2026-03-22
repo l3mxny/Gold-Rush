@@ -1028,6 +1028,10 @@ button:hover {
   background: #ffd700 !important;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .main-content {
     grid-template-columns: 1fr;
