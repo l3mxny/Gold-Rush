@@ -120,6 +120,11 @@ app.get('/health', (req, res) => {
   res.json({ status: 'Server is running!' });
 });
 
+// Check if Plaid is connected
+app.get('/plaid-status', (req, res) => {
+  res.json({ connected: Object.keys(accessTokens).length > 0 });
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`🏗️ Gold Rush server running on port ${PORT}`);

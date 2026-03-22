@@ -45,6 +45,16 @@ export default function App() {
   const [showBandit, setShowBandit] = useState(false);
   const [banditAmount, setBanditAmount] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
+  const [isPlaidConnected, setIsPlaidConnected] = useState(false);
+
+  // Check Plaid connection status
+  useEffect(() => {
+    if (!currentUser) return;
+    fetch('/plaid-status')
+      .then((res) => res.json())
+      .then((data) => setIsPlaidConnected(data.connected))
+      .catch(() => {});
+  }, [currentUser]);
 
   // Load user budget from Firestore (preserve existing users, N/A for new)
   useEffect(() => {
@@ -185,6 +195,7 @@ export default function App() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ public_token }),
             });
+            setIsPlaidConnected(true);
 
             // Auto-import transactions from Plaid
             try {
@@ -306,6 +317,7 @@ export default function App() {
                   monthlyBudget={hasSetBudget ? totalBudget : null}
                   percentage={percentage}
                   onConnectBank={connectBank}
+                  isPlaidConnected={isPlaidConnected}
                 />
                 <ClaimsSection
                   budgetLimits={budgetLimits || {}}
