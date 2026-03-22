@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { useAuth } from './context/AuthContext';
 import GoldPile from './components/GoldPile';
@@ -21,10 +21,49 @@ export default function App() {
     { id: 4, description: 'Starbucks', category: 'Saloon & Fun', amount: -6.50, isSplurge: false },
   ]);
   const [outlaws, setOutlaws] = useState([
-    { name: 'Billy the Kid', budget: 3000, saved: 1500, crime: 'Saved 50% of income' },
-    { name: 'Wyatt Earp', budget: 2500, saved: 1200, crime: 'Built emergency fund' },
-    { name: 'Jesse James', budget: 2000, saved: 900, crime: 'Cut splurges in half' },
-    { name: 'Doc Holliday', budget: 3500, saved: 800, crime: 'Tracked all expenses' }
+    {
+      name: 'Billy the Kid',
+      budget: 3000,
+      saved: 1500,
+      crime: 'Spent 50% of monthly budget',
+      transactions: [
+        { category: 'Homestead', amount: 1000 },
+        { category: 'Dining Out', amount: 400 },
+        { category: 'Saloon & Fun', amount: 100 },
+      ],
+    },
+    {
+      name: 'Wyatt Earp',
+      budget: 2500,
+      saved: 1200,
+      crime: 'Spent 52% of monthly budget',
+      transactions: [
+        { category: 'Dining Out', amount: 700 },
+        { category: 'Provisions', amount: 400 },
+        { category: 'Saloon & Fun', amount: 200 },
+      ],
+    },
+    {
+      name: 'Jesse James',
+      budget: 2000,
+      saved: 900,
+      crime: 'Spent 55% of monthly budget',
+      transactions: [
+        { category: 'Saloon & Fun', amount: 650 },
+        { category: 'SPLURGE', amount: 450 },
+      ],
+    },
+    {
+      name: 'Doc Holliday',
+      budget: 3500,
+      saved: 800,
+      crime: 'Spent 77% of monthly budget',
+      transactions: [
+        { category: 'Homestead', amount: 1000 },
+        { category: 'SPLURGE', amount: 900 },
+        { category: 'Dining Out', amount: 800 },
+      ],
+    },
   ]);
   const [showBandit, setShowBandit] = useState(false);
   const [banditAmount, setBanditAmount] = useState(0);
@@ -49,14 +88,28 @@ export default function App() {
     setDispatches(prev => [newDispatch, ...prev]);
   };
 
-  const addOutlaw = (name, budget, saved) => {
-    if (!name || !budget || !saved) return;
+  const addOutlaw = (name, budget, spent, spendingType) => {
+    const b = parseInt(budget, 10);
+    const sp = parseInt(spent, 10);
+    if (!name || Number.isNaN(b) || b <= 0 || Number.isNaN(sp) || sp < 0) return;
+
+    const saved = b - sp;
+    const spendPct = Math.round((sp / b) * 100);
+    const overbudgetPercent = sp > b ? Math.round(((sp - b) / b) * 100) : 0;
+    const category = (spendingType && String(spendingType).trim()) || 'Other';
 
     setOutlaws(prev => [...prev, {
+      id: `wanted-${Date.now()}`,
+      postedAsWanted: true,
       name,
-      budget: parseInt(budget),
-      saved: parseInt(saved),
-      crime: `Saved ${Math.round((saved / budget) * 100)}% of income`
+      budget: b,
+      saved,
+      spendingType: category,
+      overbudgetPercent,
+      crime: overbudgetPercent > 0
+        ? `Spent ${spendPct}% of budget (${overbudgetPercent}% over) — ${category}`
+        : `Spent ${spendPct}% of monthly budget — ${category}`,
+      transactions: [{ category, amount: sp }],
     }]);
   };
 

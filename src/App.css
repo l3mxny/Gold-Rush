@@ -336,10 +336,41 @@ button:hover {
   }
 }
 
+/* Gold Rush leaderboard — shared palette (tycoon + wanted stay in one family) */
+:root {
+  --lb-gold: #d4af37;
+  --lb-gold-light: #fff4b8;
+  --lb-gold-mid: #c9a227;
+  --lb-gold-deep: #9a7209;
+  --lb-wood: #6b4e3d;
+  --lb-wood-dark: #4a3628;
+  --lb-parchment: #ede6d6;
+  --lb-parchment-mid: #e0d2bc;
+  --lb-ink: #1a1410;
+  --lb-ink-soft: #2a2218;
+  --lb-panel: #1e1814;
+  --lb-panel-deep: #12100c;
+  --lb-crimson: #8b0000;
+  --lb-crimson-mid: #a01818;
+  --lb-crimson-deep: #5c0000;
+  --lb-rank-gold: linear-gradient(145deg, #ffe566, #d4af37, #9a7209);
+  --lb-rank-wanted: linear-gradient(145deg, #c41e1e, #8b0000, #5c1010);
+  --lb-avatar-ring: 0 0 0 3px rgba(201, 162, 39, 0.65);
+  --lb-card-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  /* Tycoon + Wanted cards — identical type scale */
+  --lb-card-font: Georgia, 'Times New Roman', serif;
+  --lb-card-name-size: clamp(1.1rem, 3vw, 1.25rem);
+  --lb-card-badge-size: clamp(1rem, 2.8vw, 1.12rem);
+  --lb-card-body-size: clamp(0.9rem, 2.4vw, 1rem);
+  --lb-card-name-color: #fff8dc;
+  --lb-card-body-color: #fffef5;
+  --lb-card-body-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
 .leaderboard-section {
   background: rgba(51, 42, 30, 0.8);
   padding: 30px;
-  border: 2px solid #d4af37;
+  border: 2px solid var(--lb-gold);
   border-radius: 10px;
   grid-column: 1 / -1;
 }
@@ -352,57 +383,255 @@ button:hover {
   text-align: center;
 }
 
+.leaderboard-subsection + .leaderboard-subsection {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+.leaderboard-tycoons {
+  padding: 22px 20px 26px;
+  border-radius: 12px;
+  border: 3px solid var(--lb-gold);
+  box-shadow:
+    0 0 0 1px rgba(255, 215, 0, 0.18),
+    inset 0 1px 0 rgba(255, 248, 220, 0.08),
+    var(--lb-card-shadow);
+  background: linear-gradient(180deg, rgba(42, 36, 28, 0.96) 0%, rgba(26, 22, 18, 0.98) 100%);
+}
+
+.leaderboard-tycoons-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.leaderboard-tycoons-trophy {
+  font-size: 2rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.leaderboard-section h2.leaderboard-heading-tycoons {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  background: linear-gradient(180deg, #fff8dc 0%, #ffd700 45%, #b8860b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 24px rgba(255, 215, 0, 0.45);
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.leaderboard-tycoons-tagline {
+  text-align: center;
+  margin: 10px 0 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(212, 175, 55, 0.85);
+}
+
+.leaderboard-wanted {
+  padding: 22px 20px 24px;
+  border-radius: 12px;
+  border: 3px solid var(--lb-wood-dark);
+  box-shadow:
+    inset 0 0 0 1px rgba(212, 175, 55, 0.12),
+    inset 0 0 48px rgba(0, 0, 0, 0.28),
+    var(--lb-card-shadow);
+  background: linear-gradient(165deg, #2a2018 0%, var(--lb-panel) 50%, var(--lb-panel-deep) 100%);
+}
+
+.leaderboard-section h2.leaderboard-heading-wanted {
+  color: #e8a0a0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 12px rgba(139, 0, 0, 0.35);
+  border-bottom: 2px solid rgba(139, 0, 0, 0.55);
+  padding-bottom: 12px;
+  margin-bottom: 22px;
+  font-size: clamp(1.2rem, 3.5vw, 1.65rem);
+}
+
 .leaderboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: clamp(16px, 3vw, 22px);
   margin-bottom: 20px;
 }
 
+.leaderboard-grid--tycoons .tycoon-card,
+.leaderboard-grid--wanted .wanted-poster {
+  min-width: 0;
+}
+
+/* Shared dark card face — matches leaderboard / section panels */
+.tycoon-card,
 .wanted-poster {
-  background: #e8dcc4;
-  border: 8px solid #8b7355;
-  border-radius: 5px;
-  padding: 20px;
+  font-family: var(--lb-card-font);
+  background: linear-gradient(165deg, #252018 0%, var(--lb-panel) 48%, var(--lb-panel-deep) 100%);
+}
+
+.tycoon-card {
+  position: relative;
   text-align: center;
-  transform: rotate(-2deg);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  padding: 22px 20px 20px;
+  border-radius: 8px;
+  border: 3px solid var(--lb-gold-mid);
+  box-shadow:
+    0 0 0 1px rgba(255, 215, 0, 0.18),
+    var(--lb-card-shadow),
+    inset 0 1px 0 rgba(255, 248, 220, 0.06);
+  transform: rotate(-1deg);
+}
+
+.tycoon-card:nth-child(even) {
+  transform: rotate(1deg);
+}
+
+.tycoon-rank,
+.wanted-rank {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1em;
+  line-height: 1;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.tycoon-rank {
+  color: var(--lb-ink);
+  background: var(--lb-rank-gold);
+}
+
+/* Shared portrait treatment — same coin/medallion on tycoon + wanted cards */
+.tycoon-avatar,
+.wanted-avatar {
+  width: 84px;
+  height: 84px;
+  margin: 12px auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: var(--lb-ink);
+  background: radial-gradient(circle at 32% 28%, #fff8dc, #e8c547 42%, var(--lb-gold-deep));
+  box-shadow: var(--lb-avatar-ring), inset 0 -4px 12px rgba(0, 0, 0, 0.28);
+}
+
+.tycoon-name,
+.wanted-name {
+  font-size: var(--lb-card-name-size);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: var(--lb-card-name-color);
+  margin: 8px 0 6px;
+}
+
+.tycoon-saved-badge,
+.wanted-reward-badge {
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 8px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: var(--lb-card-badge-size);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tycoon-saved-badge {
+  color: #0d0806;
+  background: linear-gradient(180deg, var(--lb-gold-light), #e6c84a, var(--lb-gold-deep));
+  border: 2px solid var(--lb-gold-mid);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 3px 10px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.wanted-reward-badge {
+  color: #fff8f0;
+  background: var(--lb-rank-wanted);
+  border: 2px solid var(--lb-crimson-deep);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 220, 200, 0.22),
+    0 3px 10px rgba(60, 0, 0, 0.45);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+}
+
+.leaderboard-line-emoji {
+  font-style: normal;
+  font-size: 1.15em;
+  line-height: 1;
+  vertical-align: -0.08em;
+  margin-right: 2px;
+}
+
+.tycoon-habit-line,
+.wanted-blow-line,
+.wanted-overbudget-line {
+  font-size: var(--lb-card-body-size);
+  line-height: 1.5;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--lb-card-body-color);
+  text-shadow: var(--lb-card-body-shadow);
+}
+
+.tycoon-habit-line {
+  margin: 14px 0 0;
+}
+
+.wanted-poster {
+  border: 3px solid var(--lb-wood);
+  border-radius: 8px;
+  padding: 22px 20px 20px;
+  text-align: center;
+  transform: rotate(-1deg);
+  box-shadow:
+    var(--lb-card-shadow),
+    inset 0 0 0 1px rgba(212, 175, 55, 0.1),
+    inset 0 1px 0 rgba(255, 248, 220, 0.05);
   position: relative;
 }
 
 .wanted-poster:nth-child(even) {
-  transform: rotate(2deg);
+  transform: rotate(1deg);
 }
 
+/* Matches tycoon “crest” weight — gold accent, same scale as card name */
 .wanted-title {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #8b0000;
+  font-size: var(--lb-card-name-size);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.1em;
+  color: rgba(255, 223, 140, 0.95);
   margin-bottom: 10px;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  border-bottom: 2px solid #8b0000;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.35);
   padding-bottom: 10px;
-}
-
-.wanted-avatar {
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(135deg, #d4af37, #8b7355);
-  border-radius: 50%;
-  margin: 15px auto;
-  font-size: 2.5em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-}
-
-.wanted-name {
-  font-size: 1.3em;
-  font-weight: bold;
-  color: #1a1410;
-  margin: 10px 0;
+  text-shadow: var(--lb-card-body-shadow);
 }
 
 .wanted-bounty {
@@ -415,35 +644,164 @@ button:hover {
   font-weight: bold;
 }
 
+.wanted-blow-line {
+  margin: 14px 0 0;
+  padding: 10px 8px 0;
+  border-top: 1px dashed rgba(212, 175, 55, 0.28);
+}
+
+.wanted-overbudget-line {
+  margin: 10px 0 0;
+  letter-spacing: 0.02em;
+}
+
+.wanted-overbudget-line--over {
+  color: #ffc8c8;
+  text-shadow: var(--lb-card-body-shadow);
+}
+
 .wanted-crime {
-  color: #1a1410;
-  font-size: 0.9em;
-  font-style: italic;
   margin-top: 10px;
+  font-size: var(--lb-card-body-size);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--lb-card-body-color);
+  text-shadow: var(--lb-card-body-shadow);
+  opacity: 0.92;
 }
 
 .wanted-rank {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #8b0000;
-  color: #e8dcc4;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.2em;
+  color: #fff8f0;
+  background: var(--lb-rank-wanted);
+}
+
+.add-outlaw-section {
+  margin-top: 8px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(212, 175, 55, 0.35);
 }
 
 .add-outlaw-form {
-  background: rgba(30, 25, 18, 0.9);
-  padding: 20px;
-  border: 2px solid #d4af37;
-  border-radius: 5px;
-  margin-top: 20px;
+  padding: 22px 20px 24px;
+  border-radius: 12px;
+  border: 3px solid var(--lb-wood-dark);
+  background: linear-gradient(165deg, #2a2218 0%, var(--lb-panel) 48%, var(--lb-panel-deep) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(212, 175, 55, 0.14),
+    inset 0 0 50px rgba(0, 0, 0, 0.2),
+    var(--lb-card-shadow);
+}
+
+.add-outlaw-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.add-outlaw-form-icon {
+  font-size: 1.85rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+
+.add-outlaw-form-title {
+  margin: 0;
+  font-size: clamp(1.15rem, 3.5vw, 1.45rem);
+  letter-spacing: 0.03em;
+  background: linear-gradient(180deg, #fff8dc 0%, #ffd700 45%, #b8860b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 20px rgba(255, 215, 0, 0.25);
+}
+
+.add-outlaw-section .form-group {
+  margin-bottom: 0;
+}
+
+.add-outlaw-section .form-group label {
+  display: block;
+  color: rgba(255, 223, 140, 0.95);
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+}
+
+.add-outlaw-section .form-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 2px solid rgba(212, 175, 55, 0.35);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff8e7;
+  font-family: 'Georgia', serif;
+  font-size: 1rem;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.add-outlaw-section .form-group input:focus {
+  outline: none;
+  border-color: var(--lb-gold);
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.25),
+    0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.add-outlaw-section .form-group select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 2px solid rgba(212, 175, 55, 0.35);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff8e7;
+  font-family: 'Georgia', serif;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.add-outlaw-section .form-group select:focus {
+  outline: none;
+  border-color: var(--lb-gold);
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.25),
+    0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.add-outlaw-post-btn {
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 2px solid var(--lb-gold-mid);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  color: var(--lb-ink);
+  background: linear-gradient(180deg, var(--lb-gold-light), #e6c84a, var(--lb-gold-deep));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 4px 14px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+  align-self: flex-end;
+  white-space: nowrap;
+}
+
+.add-outlaw-post-btn:hover {
+  filter: brightness(1.05);
+}
+
+.add-outlaw-post-btn:active {
+  transform: scale(0.98);
 }
 
 .form-group {
@@ -475,11 +833,27 @@ button:hover {
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr auto;
-  gap: 15px;
+  gap: 16px;
   align-items: flex-end;
 }
 
+.form-row--post-wanted {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  align-items: end;
+}
+
 @media (max-width: 768px) {
+  .leaderboard-tycoons,
+  .leaderboard-wanted,
+  .add-outlaw-form {
+    padding: 18px 14px 20px;
+  }
+
+  .leaderboard-tycoons-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
   .main-content {
     grid-template-columns: 1fr;
   }
