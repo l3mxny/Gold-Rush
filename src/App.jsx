@@ -110,6 +110,7 @@ export default function App() {
   const percentage = totalBudget > 0 ? Math.round((goldAmount / totalBudget) * 100) : 0;
 
   const spentByCategory = dispatches.reduce((acc, d) => {
+    if (d.isSplurge) return acc;
     acc[d.category] = (acc[d.category] || 0) + Math.abs(d.amount);
     return acc;
   }, {});
