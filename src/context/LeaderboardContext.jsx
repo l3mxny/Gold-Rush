@@ -6,9 +6,7 @@ import {
   query,
   collection,
   orderBy,
-  where,
-  arrayUnion,
-  getDoc
+  arrayUnion
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { useAuth } from './AuthContext';
@@ -56,25 +54,11 @@ export const LeaderboardProvider = ({ children }) => {
     if (!currentUser) return;
     
     try {
-      // Find friend by email
-      const friendQuery = query(
-        collection(db, 'leaderboard'),
-        where('email', '==', friendEmail)
-      );
-      
-      // Since Firestore doesn't allow where queries easily, we'll fetch all and filter
-      const allUsersDoc = await getDoc(doc(db, 'leaderboard', 'users'));
-      
-      // Better approach: just add to friends array with email
-      // The friend system works by storing emails of friends
+      // Add friend by email to the friends array
       const userDocRef = doc(db, 'leaderboard', currentUser.uid);
       await setDoc(userDocRef, {
         friends: arrayUnion(friendEmail)
       }, { merge: true });
-      
-      // Also add current user to friend's friends list (mutual)
-      const friendDocRef = doc(db, 'leaderboard', friendEmail); // Using email as backup
-      // We'll need to search by email - for now just store the relationship one way
       
       alert(`✅ Added ${friendEmail} as a friend!`);
       return true;
