@@ -121,9 +121,9 @@ export const LeaderboardProvider = ({ children }) => {
           });
         });
 
-        // Filter to only show friends
-        const filteredLeaderboard = allUsers.filter(user => 
-          friendEmails.includes(user.email)
+        // Filter to show friends + current user
+        const filteredLeaderboard = allUsers.filter(user =>
+          friendEmails.includes(user.email) || user.uid === currentUser.uid
         );
 
         setFriendsLeaderboard(filteredLeaderboard);
