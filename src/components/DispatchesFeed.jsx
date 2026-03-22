@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLeaderboard } from '../context/LeaderboardContext';
 
 const DispatchItem = ({ description, category, amount, isSplurge }) => (
   <div className="dispatch-item">
