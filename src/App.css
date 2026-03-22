@@ -642,9 +642,46 @@ button:hover {
 
 .add-category-row {
   display: grid;
-  grid-template-columns: 1fr 100px auto;
+  grid-template-columns: 1fr 120px auto;
   gap: 10px;
   align-items: center;
+}
+
+/* Add-category inputs are not in .form-group — align size/font with category rows */
+.set-budget-section .form-group input,
+.set-budget-section .add-category-row input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  min-height: 40px;
+  border: 1px solid #d4af37;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  font-family: 'Georgia', serif;
+  font-size: 1em;
+  line-height: 1.25;
+}
+
+.set-budget-section .form-group input {
+  color: #f5deb3;
+}
+
+.set-budget-section .add-category-row input {
+  color: #ffffff;
+}
+
+.set-budget-section .form-group input::placeholder {
+  color: rgba(245, 222, 179, 0.45);
+}
+
+.set-budget-section .add-category-row input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.set-budget-section .form-group input:focus,
+.set-budget-section .add-category-row input:focus {
+  outline: none;
+  border-color: #ffd700;
 }
 
 .budget-save-btn {
