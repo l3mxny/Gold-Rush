@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { useAuth } from './context/AuthContext';
 import { useLeaderboard } from './context/LeaderboardContext';
+<<<<<<< HEAD
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+=======
+>>>>>>> main
 import { db } from './config/firebase';
 import GoldPile from './components/GoldPile';
 import ClaimsSection from './components/ClaimsSection';
@@ -14,6 +17,7 @@ import SetBudget from './components/SetBudget';
 import BanditAnimation from './components/BanditAnimation';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import ProfilePic from './components/ProfilePic';
 
 const DEFAULT_BUDGET = {
   Homestead:      1000,
@@ -45,6 +49,7 @@ export default function App() {
   const [banditAmount, setBanditAmount] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
 
+<<<<<<< HEAD
   // Load user budget from Firestore (preserve existing users, N/A for new)
   useEffect(() => {
     if (!currentUser) return;
@@ -86,6 +91,23 @@ export default function App() {
     }
   };
 
+=======
+  // Sync transactions from Firestore in real-time
+  useEffect(() => {
+    if (!currentUser) return;
+    const unsubscribe = db
+      .collection('users')
+      .doc(currentUser.uid)
+      .collection('transactions')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot((snapshot) => {
+        const txns = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setDispatches(txns);
+      });
+    return () => unsubscribe();
+  }, [currentUser]);
+
+>>>>>>> main
   // Derived values
   const categories = budgetLimits ? Object.keys(budgetLimits) : [];
   const totalBudget = budgetLimits ? Object.values(budgetLimits).reduce((a, b) => a + b, 0) : 0;
@@ -110,6 +132,15 @@ export default function App() {
     });
   };
 
+  const saveTransactionToFirestore = async (dispatch) => {
+    if (!currentUser) return;
+    await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .collection('transactions')
+      .add({ ...dispatch, createdAt: new Date() });
+  };
+
   const triggerBanditHeist = (description, amount, date = TODAY) => {
     setBanditAmount(amount);
     setShowBandit(true);
@@ -118,15 +149,15 @@ export default function App() {
     setTimeout(() => setShowNotification(false), 2000);
 
     const newDispatch = {
-      id: Date.now(),
       description: `🏴‍☠️ ${description}`,
       category: "💔 SPLURGE - Bandits' Haul!",
       amount: -amount,
       isSplurge: true,
       date,
     };
+    saveTransactionToFirestore(newDispatch);
+    // Optimistic update for leaderboard stats
     const updated = [newDispatch, ...dispatches];
-    setDispatches(updated);
     persistStats(updated);
   };
 
@@ -136,16 +167,14 @@ export default function App() {
       return;
     }
     const newDispatch = {
-      id: Date.now(),
       description,
       category,
       amount: -amount,
       isSplurge: false,
       date,
     };
-    const updated = [newDispatch, ...dispatches];
-    setDispatches(updated);
-    persistStats(updated);
+    saveTransactionToFirestore(newDispatch);
+    persistStats([newDispatch, ...dispatches]);
   };
 
   const connectBank = async () => {
@@ -195,6 +224,7 @@ export default function App() {
             <p className="subtitle">Pan for Gold, Not Debt</p>
           </div>
           <div className="header-user">
+            <ProfilePic />
             <span className="user-email">{currentUser.email}</span>
             <button onClick={logout} className="logout-btn">Logout</button>
           </div>

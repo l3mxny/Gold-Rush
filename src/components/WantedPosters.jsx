@@ -17,7 +17,25 @@ const OUTLAW_TAGLINES = [
 
 const SHOW_N = 2;
 
-function TycoonCard({ rank, displayName, saved }) {
+const Avatar = ({ displayName, photoURL, size = 72, border = '3px solid #c8a000' }) => (
+  <div style={{
+    width: size, height: size,
+    background: 'linear-gradient(135deg, #c8a000, #7a5e00)',
+    borderRadius: '50%', margin: '8px auto 14px',
+    fontSize: '2.2em', display: 'flex',
+    alignItems: 'center', justifyContent: 'center',
+    color: '#1a1000', fontWeight: 'bold',
+    boxShadow: '0 0 12px rgba(200,160,0,0.3)',
+    overflow: 'hidden', border,
+  }}>
+    {photoURL
+      ? <img src={photoURL} alt={displayName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      : displayName.charAt(0).toUpperCase()
+    }
+  </div>
+);
+
+function TycoonCard({ rank, displayName, saved, photoURL }) {
   return (
     <div style={{
       background: 'rgba(26, 18, 4, 0.98)',
@@ -40,17 +58,7 @@ function TycoonCard({ rank, displayName, saved }) {
       </div>
 
       {/* Avatar */}
-      <div style={{
-        width: 72, height: 72,
-        background: 'linear-gradient(135deg, #c8a000, #7a5e00)',
-        borderRadius: '50%', margin: '8px auto 14px',
-        fontSize: '2.2em', display: 'flex',
-        alignItems: 'center', justifyContent: 'center',
-        color: '#1a1000', fontWeight: 'bold',
-        boxShadow: '0 0 12px rgba(200,160,0,0.3)',
-      }}>
-        {displayName.charAt(0).toUpperCase()}
-      </div>
+      <Avatar displayName={displayName} photoURL={photoURL} />
 
       {/* Name */}
       <div style={{ fontWeight: 'bold', fontSize: '1.15em', color: '#f5deb3', marginBottom: 14 }}>
@@ -74,7 +82,7 @@ function TycoonCard({ rank, displayName, saved }) {
   );
 }
 
-function OutlawCard({ rank, displayName, saved, spent, budget }) {
+function OutlawCard({ rank, displayName, saved, spent, budget, photoURL }) {
   const spentPct = budget > 0 ? Math.round((spent / budget) * 100) : 0;
   return (
     <div style={{
@@ -106,17 +114,7 @@ function OutlawCard({ rank, displayName, saved, spent, budget }) {
       </div>
 
       {/* Avatar */}
-      <div style={{
-        width: 72, height: 72,
-        background: 'linear-gradient(135deg, #c8a000, #7a5e00)',
-        borderRadius: '50%', margin: '0 auto 14px',
-        fontSize: '2.2em', display: 'flex',
-        alignItems: 'center', justifyContent: 'center',
-        color: '#1a1000', fontWeight: 'bold',
-        boxShadow: '0 0 12px rgba(200,160,0,0.2)',
-      }}>
-        {displayName.charAt(0).toUpperCase()}
-      </div>
+      <Avatar displayName={displayName} photoURL={photoURL} border="3px solid #8b1515" />
 
       {/* Name */}
       <div style={{ fontWeight: 'bold', fontSize: '1.15em', color: '#f5deb3', marginBottom: 14 }}>
@@ -207,6 +205,7 @@ export default function WantedPosters() {
               rank={idx + 1}
               displayName={user.displayName}
               saved={user.saved}
+              photoURL={user.photoURL}
             />
           ))}
         </div>
@@ -247,6 +246,7 @@ export default function WantedPosters() {
               saved={user.saved}
               spent={user.spent}
               budget={user.budget}
+              photoURL={user.photoURL}
             />
           ))}
         </div>
