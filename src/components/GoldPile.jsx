@@ -30,10 +30,6 @@ export default function GoldPile({ goldAmount, monthlyBudget, percentage, onConn
               src={pileSrc}
               alt="Gold pile"
               className="gold-pile-img"
-              style={{
-                opacity: (displayPercent / 100) * 0.8 + 0.2,
-                transition: 'all 0.3s ease'
-              }}
             />
           </div>
         </div>
