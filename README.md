@@ -1,5 +1,7 @@
 # ⛏️ Gold Rush - Wild West Budget Dashboard
 
+devpost: https://devpost.com/software/reelmoments
+
 A gamified budget tracking app themed like the Wild West! Watch your gold pile, catch bandits stealing your splurges, compete on the leaderboard with friends, and connect your real bank account via Plaid.
 
 ## Features
@@ -23,7 +25,7 @@ A gamified budget tracking app themed like the Wild West! Watch your gold pile, 
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/l3mxny/HooHacks.git
+git clone https://github.com/l3mxny/Gold-Rush.git
 cd HooHacks
 ```
 
